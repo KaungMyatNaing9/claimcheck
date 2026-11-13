@@ -1,0 +1,36 @@
+{
+  "claims": [
+    {
+      "text": "The notes index command writes a SQLite database at .notes/index.db.",
+      "kind": "feature",
+      "quote": "The CLI command `notes index` writes a SQLite database at `.notes/index.db`.",
+      "line": 1,
+      "checkable": true,
+      "skip_reason": null
+    },
+    {
+      "text": "Search returns results in under 50 ms on the bundled sample corpus.",
+      "kind": "benchmark_number",
+      "quote": "Search returns results in under 50 ms on the bundled sample corpus.",
+      "line": 9,
+      "checkable": true,
+      "skip_reason": null
+    },
+    {
+      "text": "It reads Markdown and plain text files.",
+      "kind": "compatibility",
+      "quote": "It reads Markdown and plain text files.",
+      "line": 11,
+      "checkable": true,
+      "skip_reason": null
+    },
+    {
+      "text": "Northwind Notes is the best note tool you will ever use.",
+      "kind": "other",
+      "quote": "Northwind Notes is the best note tool you will ever use.",
+      "line": 15,
+      "checkable": false,
+      "skip_reason": "marketing superlative with no checkable behavior, number, or compatibility"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ class Source(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    kind: Literal["issue_body", "issue_comment"]
+    kind: Literal["issue_body", "issue_comment", "fixture"]
     url: str = Field(min_length=1)
     author: str = Field(min_length=1)
     note: str = Field(min_length=1)
@@ -53,9 +53,7 @@ class GoldClaim(BaseModel):
     @field_validator("commit")
     @classmethod
     def _full_commit(cls, value: str) -> str:
-        if len(value) != 40 or any(character not in "0123456789abcdef" for character in value):
-            raise ValueError("commit must be a 40-character lowercase git SHA")
-        return value
+        return _commit_value(value)
 
     @field_validator("also_readme_lines")
     @classmethod
@@ -114,9 +112,7 @@ class GroundTruth(BaseModel):
     @field_validator("commit")
     @classmethod
     def _commit(cls, value: str) -> str:
-        if len(value) != 40 or any(character not in "0123456789abcdef" for character in value):
-            raise ValueError("commit must be a 40-character lowercase git SHA")
-        return value
+        return _commit_value(value)
 
     @field_validator("readme_sha256")
     @classmethod
@@ -142,6 +138,15 @@ class GroundTruth(BaseModel):
                     f"does not follow label_mapping for {case.issue_severity!r}"
                 )
         return self
+
+
+def _commit_value(value: str) -> str:
+    """A git SHA, or ``local`` for a fixture that lives in this repository."""
+    if value == "local":
+        return value
+    if len(value) != 40 or any(character not in "0123456789abcdef" for character in value):
+        raise ValueError("commit must be a 40-character lowercase git SHA, or 'local'")
+    return value
 
 
 def load_ground_truth(path: Path) -> GroundTruth:

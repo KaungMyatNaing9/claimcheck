@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "claimcheck"
-version = "0.1.0"
-description = "Extract checkable claims from a repository README. Milestone 1 does not judge them."
+version = "0.2.0"
+description = "Check README claims against code and benchmark files. Pre-alpha, milestone 2."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

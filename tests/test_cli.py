@@ -6,7 +6,7 @@ import pytest
 from claimcheck.cli import main
 from claimcheck.models import ExtractionResult, Label, Report
 
-SAMPLE = Path("examples/sample_readme.md")
+SAMPLE = Path("examples/northwind/README.md")
 REPLAY = Path("examples/sample_extract_response.json")
 
 
@@ -16,8 +16,8 @@ def test_extract_replay_corrects_the_line_and_skips_fluff(
     code = main(["extract", str(SAMPLE), "--replay", str(REPLAY)])
     assert code == 0
     output = capsys.readouterr().out
-    assert "sample_readme.md:7" in output
-    assert "sample_readme.md:9" in output
+    assert "northwind/README.md:7" in output
+    assert "northwind/README.md:9" in output
     assert "Skipped 1 not-checkable" in output
     assert "reported line 1" in output
     assert "best note tool" in output
@@ -62,19 +62,17 @@ def test_scan_writes_a_placeholder_report(
     )
     assert code == 0
     summary = capsys.readouterr().out
-    assert "unverifiable placeholders" in summary
-    markdown = (tmp_path / "report.md").read_text(encoding="utf-8")
+    assert "not_found 2" in summary
+    assert "unverifiable 1" in summary
     report = Report.model_validate_json((tmp_path / "report.json").read_text(encoding="utf-8"))
-    assert "not a judgment" in markdown
-    assert {verdict.label for verdict in report.verdicts} == {Label.unverifiable}
-    assert all(verdict.provisional and verdict.evidence == [] for verdict in report.verdicts)
+    assert [verdict.label for verdict in report.verdicts] == [
+        Label.not_found,
+        Label.unverifiable,
+        Label.not_found,
+    ]
+    assert report.mode == "milestone-2"
+    assert all(verdict.evidence == [] for verdict in report.verdicts)
     assert len(report.verdicts) == 3
-
-
-def test_git_url_is_rejected(capsys: pytest.CaptureFixture[str]) -> None:
-    code = main(["extract", "https://github.com/example/repo.git"])
-    assert code == 2
-    assert "not implemented" in capsys.readouterr().err
 
 
 def test_missing_model_without_replay_fails(

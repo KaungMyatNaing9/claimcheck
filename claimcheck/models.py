@@ -89,6 +89,7 @@ class Verdict(BaseModel):
     evidence: list[Evidence] = Field(default_factory=list)
     rationale: str = Field(min_length=1)
     provisional: bool = False
+    downgraded_from: Label | None = None
 
 
 class ExtractionResult(BaseModel):

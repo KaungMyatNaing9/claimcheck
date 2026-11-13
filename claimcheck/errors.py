@@ -28,3 +28,7 @@ class ExtractionError(ClaimCheckError):
 
 class GroundTruthError(ClaimCheckError):
     """A hand-labeled eval file does not match the expected schema."""
+
+
+class CheckoutError(ClaimCheckError):
+    """Cloning or checking out a repository failed."""

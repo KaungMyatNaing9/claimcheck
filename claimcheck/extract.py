@@ -61,7 +61,7 @@ def validate_model_output(
 ) -> tuple[list[Claim] | None, list[str], list[str]]:
     """Return claims, warnings, and errors. Errors empty means the claims are usable."""
     try:
-        payload = _parse_json_object(raw)
+        payload = parse_json_object(raw)
     except ValueError as exc:
         return None, [], [str(exc)]
     claims_raw = payload.get("claims")
@@ -176,7 +176,8 @@ def _line_hint(value: object, prefix: str) -> tuple[int | None, str | None]:
     return None, f"{prefix}.line must be an integer"
 
 
-def _parse_json_object(raw: str) -> dict[str, object]:
+def parse_json_object(raw: str) -> dict[str, object]:
+    """Parse a model response, including one wrapped in a markdown fence or a sentence."""
     text = raw.strip()
     text = _FENCE.sub("", text).strip()
     try:

@@ -11,7 +11,7 @@ from pathlib import Path
 from claimcheck.errors import ReadmeError
 
 _README_NAMES = ("README.md", "README.markdown", "README.mdown", "readme.md")
-_GIT_URL = re.compile(r"^(https?://|ssh://|git://|git@)")
+_GIT_URL = re.compile(r"^(https?://|ssh://|git://|file://|git@)")
 _LEADING_LINE_PREFIX = re.compile(r"^\d+\|")
 
 

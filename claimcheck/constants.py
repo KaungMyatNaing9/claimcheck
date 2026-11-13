@@ -1,18 +1,14 @@
 """Version and milestone markers shared by the CLI and reports."""
 
-__version__ = "0.1.0"
-MILESTONE = "1"
+__version__ = "0.2.0"
+MILESTONE = "2"
 
-# Scan in this milestone extracts claims and then stops. The label is a
-# placeholder so a report is never mistaken for a finding.
-STUB_MODE = "milestone-1-stub"
-STUB_RATIONALE = (
-    "Milestone 1 does not look at code, benchmark scripts, or benchmark results. "
-    "This unverifiable label is a placeholder, not a judgment about the claim."
-)
-STUB_LIMITATIONS = (
-    "Milestone 1 extracts claims only.",
-    "Evidence retrieval is not implemented, so no file or line is cited as "
-    "supporting or contradicting evidence.",
-    "Every verdict is unverifiable on purpose. Do not read these labels as findings.",
+SCAN_MODE = "milestone-2"
+SCAN_LIMITATIONS = (
+    "The symbol index is a Python AST walk. Other files use a def/class/function/fn line pattern.",
+    "Text search is lexical. not_found means that search returned no line.",
+    "Numbers are compared to JSON, CSV, and log metrics that share a word with the claim.",
+    "contradicted is kept only when the cited line is counter-evidence and a second pass confirms.",
+    "Otherwise that label becomes unverifiable.",
+    "A git URL is cloned into a temporary directory and removed after the report is written.",
 )

@@ -86,6 +86,8 @@ def render_markdown(report: Report) -> str:
                     lines.append(f"    - {item.note}")
         else:
             lines.append("- Evidence: none")
+        if verdict.downgraded_from is not None:
+            lines.append(f"- Downgraded from: `{verdict.downgraded_from.value}`")
         lines.append(f"- Rationale: {verdict.rationale}")
         lines.append("")
 

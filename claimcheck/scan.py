@@ -1,15 +1,13 @@
-"""Milestone 1 scan: extract claims, then label each one unverifiable.
-
-The label is a placeholder. It is not a statement that the claim lacks
-evidence in the repository. Evidence retrieval is a later milestone.
-"""
+"""Scan a repository: extract claims, retrieve evidence, and assign one verdict each."""
 
 from datetime import datetime, timezone
+from pathlib import Path
 
-from claimcheck.constants import STUB_LIMITATIONS, STUB_MODE, STUB_RATIONALE, __version__
+from claimcheck.constants import SCAN_LIMITATIONS, SCAN_MODE, __version__
 from claimcheck.extract import LLMClient, extract_claims
-from claimcheck.models import Label, Report, Verdict
+from claimcheck.models import Report
 from claimcheck.readme import ReadmeDocument
+from claimcheck.verdict import judge_claim
 
 
 def project_name(document: ReadmeDocument) -> str:
@@ -19,36 +17,47 @@ def project_name(document: ReadmeDocument) -> str:
     return document.path.stem
 
 
-def build_stub_report(
+def repo_root_for(readme: Path) -> Path:
+    """The directory whose code and benchmark files are evidence for this README."""
+    if readme.is_dir():
+        return readme.resolve()
+    return readme.resolve().parent
+
+
+def build_report(
     document: ReadmeDocument,
     client: LLMClient,
     *,
+    repo_root: Path | None = None,
     project: str | None = None,
     generated_at: datetime | None = None,
     max_attempts: int = 3,
 ) -> Report:
-    """Extract claims and attach one provisional unverifiable verdict to each checkable claim."""
+    """Extract claims and judge each checkable one against files under repo_root."""
+    root = (repo_root or repo_root_for(document.path)).resolve()
     extraction = extract_claims(document, client, max_attempts=max_attempts)
-    when = generated_at or datetime.now(timezone.utc)
-    verdicts = [
-        Verdict(
-            claim_id=claim.id,
-            label=Label.unverifiable,
-            evidence=[],
-            rationale=STUB_RATIONALE,
-            provisional=True,
+    warnings = list(extraction.warnings)
+    verdicts = []
+    for claim in extraction.claims:
+        if not claim.checkable:
+            continue
+        verdict, extra = judge_claim(
+            root,
+            claim,
+            client,
+            readme=document.path,
+            max_attempts=max_attempts,
         )
-        for claim in extraction.claims
-        if claim.checkable
-    ]
+        warnings.extend(extra)
+        verdicts.append(verdict)
     return Report(
         tool_version=__version__,
-        mode=STUB_MODE,
+        mode=SCAN_MODE,
         project=project or project_name(document),
         readme_path=document.display_path,
-        generated_at=when,
+        generated_at=generated_at or datetime.now(timezone.utc),
         claims=extraction.claims,
         verdicts=verdicts,
-        limitations=list(STUB_LIMITATIONS),
-        warnings=list(extraction.warnings),
+        limitations=list(SCAN_LIMITATIONS),
+        warnings=warnings,
     )

@@ -24,6 +24,7 @@ def test_git_urls_are_not_local_paths() -> None:
     assert is_git_url("https://github.com/MemPalace/mempalace.git")
     assert is_git_url("git@github.com:MemPalace/mempalace.git")
     assert is_git_url("ssh://git@github.com/MemPalace/mempalace.git")
+    assert is_git_url("file:///tmp/example-repo")
     assert not is_git_url("README.md")
     assert not is_git_url("./repo.git")
     assert not is_git_url("/tmp/repo")

@@ -1,8 +1,8 @@
-# Extraction eval
+# Eval
 
-This directory holds hand-labeled README claims and a scorer for extraction recall. It does not score verdicts. Milestone 1 has no verdict pipeline to score.
+This directory holds hand-labeled claims, a scorer for extraction recall, and a scorer for verdict labels.
 
-No live model has been run against this set in this repository, so there is no recall number to report.
+No live model has been run against the MemPalace rows in this repository, so there is no recall or verdict figure for that repository to report. `fixtures/tiny_repo` is scored by the tests with a recorded model response.
 
 ## Ground truth
 
@@ -23,7 +23,9 @@ No live model has been run against this set in this repository, so there is no r
 
 Rows that are not in the opening table were left out on purpose. Later comments discuss other code and later revisions, including a 2026-11-10 rerun of a 96.6% figure on a newer MemPalace version. Those comments are named in `provenance` and are not rows.
 
-`expected_label` is for a future verdict eval. `eval/score_extraction.py` ignores it.
+`eval/score_extraction.py` ignores `expected_label`. `eval/score_verdicts.py` uses it, and prints `issue_severity` on the same line.
+
+`ground_truth/tiny_repo.json` is the specification of `fixtures/tiny_repo`. Every row has `mapping_is_coarse` false and `commit` set to `local`. It is not an audit of another project.
 
 ## Score extraction recall
 
@@ -43,3 +45,18 @@ A gold row counts as found when any extracted `text` satisfies either of these:
 That is lexical overlap. A paraphrase that shares neither the phrase nor the numbers can count as a miss. One extracted string that contains every gold phrase scores perfect recall. The script prints that limit with the score.
 
 `--min-recall` exits 1 when recall is lower than the given value. The default run always exits 0 when the files are valid, so a low score is not a test failure until you set a bar.
+
+## Score verdicts
+
+```bash
+python eval/score_verdicts.py \
+  eval/ground_truth/tiny_repo.json \
+  path/to/report.json
+```
+
+The script matches gold claims to report claims with the same lexical overlap as extraction recall. It then compares labels. Output is split:
+
+- strict rows, where `mapping_is_coarse` is false
+- coarse-mapping rows, where the issue used different words and `mapping_is_coarse` is true
+
+Each row prints `issue_severity`, `expected_label`, and `predicted_label`. A coarse row that disagrees is not folded into the strict count. The MemPalace file has both kinds of rows. Scoring it requires a report from a scan of that repository at the pinned commit. This repository does not include that scan.

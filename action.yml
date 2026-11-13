@@ -1,0 +1,97 @@
+name: ClaimCheck
+description: >
+  Scan the checked-out repository's README claims against its code and
+  benchmark files. Writes the report to the job summary. Pull request
+  comments are off unless comment is true.
+inputs:
+  model:
+    description: >
+      Model name for an OpenAI-compatible chat API. Required unless replay
+      is set. There is no default model.
+    required: false
+    default: ""
+  base-url:
+    description: API root ending in /v1, not the full chat completions URL.
+    required: false
+    default: "https://api.openai.com/v1"
+  api-key:
+    description: >
+      API key value. Leave empty to read the environment variable named by
+      api-key-secret-name. The workflow must export that variable from a
+      secret. This action cannot look up secrets[name] by itself.
+    required: false
+    default: ""
+  api-key-secret-name:
+    description: >
+      Environment variable that holds the API key when api-key is empty.
+      The example workflow exports secrets.CLAIMCHECK_API_KEY into this name.
+    required: false
+    default: CLAIMCHECK_API_KEY
+  fail-on:
+    description: "none (default) or contradicted. none does not fail the job."
+    required: false
+    default: none
+  comment:
+    description: Post or update a single pull request comment. Off by default.
+    required: false
+    default: "false"
+  github-token:
+    description: Token used only when comment is true. Pass secrets.GITHUB_TOKEN.
+    required: false
+    default: ""
+  replay:
+    description: >
+      Recorded model responses, for tests. Leave empty when calling a model.
+    required: false
+    default: ""
+  path:
+    description: Directory to scan. Defaults to the workspace.
+    required: false
+    default: "."
+  output-dir:
+    description: >
+      If set, also write claimcheck-report.md and claimcheck-report.json here.
+      The job summary is written either way.
+    required: false
+    default: ""
+  base-sha:
+    description: >
+      Base commit for the pull request diff. Empty skips diff highlighting.
+    required: false
+    default: ""
+  head-sha:
+    description: Head commit for the pull request diff.
+    required: false
+    default: ""
+  pull-request-number:
+    description: Pull request number. Used only when comment is true.
+    required: false
+    default: ""
+  repository:
+    description: owner/name. Used only when comment is true.
+    required: false
+    default: ""
+runs:
+  using: composite
+  steps:
+    - name: Install ClaimCheck
+      shell: bash
+      run: python3 -m pip install --quiet "${{ github.action_path }}"
+    - name: Scan README claims
+      shell: bash
+      env:
+        CLAIMCHECK_MODEL: ${{ inputs.model }}
+        CLAIMCHECK_BASE_URL: ${{ inputs.base-url }}
+        CLAIMCHECK_ACTION_API_KEY: ${{ inputs.api-key }}
+        CLAIMCHECK_API_KEY_SECRET_NAME: ${{ inputs.api-key-secret-name }}
+        CLAIMCHECK_FAIL_ON: ${{ inputs.fail-on }}
+        CLAIMCHECK_COMMENT: ${{ inputs.comment }}
+        CLAIMCHECK_REPLAY: ${{ inputs.replay }}
+        CLAIMCHECK_PATH: ${{ inputs.path }}
+        CLAIMCHECK_OUTPUT_DIR: ${{ inputs.output-dir }}
+        CLAIMCHECK_BASE_SHA: ${{ inputs.base-sha }}
+        CLAIMCHECK_HEAD_SHA: ${{ inputs.head-sha }}
+        CLAIMCHECK_PR_NUMBER: ${{ inputs.pull-request-number }}
+        CLAIMCHECK_REPOSITORY: ${{ inputs.repository }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: python3 -m claimcheck.action

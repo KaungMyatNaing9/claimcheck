@@ -2,7 +2,7 @@
 
 ClaimCheck reads a repository README, lists claims a reviewer could check, and compares them to code and benchmark files in that repository. Marketing that names no behavior, number, property, or compatibility is kept, marked not checkable, and left out of the verdict list.
 
-This repository is **pre-alpha, milestone 2**. Extraction, evidence retrieval, and verdicts run locally. A GitHub Action does not.
+This repository is **pre-alpha**. Extraction, evidence retrieval, verdicts, and a composite GitHub Action are in the tree. The action has not been executed on GitHub-hosted runners.
 
 ## What works now
 
@@ -15,6 +15,7 @@ This repository is **pre-alpha, milestone 2**. Extraction, evidence retrieval, a
 - `contradicted` is kept only when the cited line shares the claim's words or is a disagreeing measurement, a second model pass sets `confirm` to true, and a re-read of a benchmark file still shows the same number. Otherwise the label becomes `unverifiable` and the report says what it was downgraded from.
 - A git URL, or any path passed with `--revision`, is cloned with `git clone` into a temporary directory. `--revision` checks out that commit in the clone. The directory is removed after the report is written. A local directory without `--revision` is read in place.
 - `eval/` scores extraction recall and, separately, verdict labels. Coarse-mapping rows are counted apart from the others. See [eval/README.md](eval/README.md).
+- A composite action in `action.yml` runs a scan and appends the report to the job summary. Pull request comments are off unless `comment` is true. `fail-on` defaults to `none`; `contradicted` fails the job only for that label. When base and head commits are provided, the summary lists claims whose README line or cited evidence line is in the diff. The example workflow is [docs/example-workflow.yml](docs/example-workflow.yml). It is not installed under `.github/workflows`, and it has not been run on GitHub. Tests call the action's Python entry point with a recorded response and do not post comments. See [docs/github-action.md](docs/github-action.md).
 
 ## What this version will not do
 
@@ -27,8 +28,8 @@ This repository is **pre-alpha, milestone 2**. Extraction, evidence retrieval, a
 
 Not implemented:
 
-- A GitHub Action for maintainers running this on their own repositories.
 - Partial clones. A remote URL is a full `git clone`, so a large repository takes as long as git takes.
+- Publishing the action to a marketplace, or running it on a GitHub-hosted runner. The workflow file in `docs/` is an example.
 
 ## Install
 

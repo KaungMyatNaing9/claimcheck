@@ -25,7 +25,7 @@ The test suite does not call a network and does not need an API key. Use `Replay
 ## Honesty rules
 
 - Do not put a benchmark number, accuracy figure, or performance claim in the README, docs, or eval notes unless a script in this repository produces it and the docs say which script.
-- Do not describe a planned feature as working. The GitHub Action is not implemented. Remote clones are full clones.
+- Do not describe a planned feature as working. The GitHub Action has not been executed on GitHub. Remote clones are full clones.
 - A `contradicted` label is an accusation. Do not add a path that emits it unless the cited line is counter-evidence and the second pass confirms. If that pass does not confirm, the label is `unverifiable`.
 - Ground-truth rows must cite the page they came from. Do not invent claims, labels, or evidence notes for a repository you did not read.
 

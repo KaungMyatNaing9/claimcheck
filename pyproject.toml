@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "claimcheck"
-version = "0.2.0"
-description = "Check README claims against code and benchmark files. Pre-alpha, milestone 2."
+version = "0.3.0"
+description = "Check README claims against code and benchmark files. Pre-alpha."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

@@ -1,0 +1,73 @@
+# Example for a maintainer's own repository. This file is not installed as a
+# workflow in the ClaimCheck repository, and it has not been executed on
+# GitHub-hosted runners.
+#
+# It runs on pull requests that touch a README or common source and benchmark
+# files. Widen `paths` if your code lives somewhere else. The list is not
+# every language.
+#
+# The API key secret name is CLAIMCHECK_API_KEY below. Change that name in
+# both the `env` line and `api-key-secret-name` if your secret is named
+# something else. The action reads the environment variable. It cannot look
+# up secrets[name] on its own.
+#
+# comment is false. Set it to true and add `pull-requests: write` if you want
+# one comment, updated in place, on the pull request.
+# fail-on is none. Set it to contradicted to fail the job when a verdict is
+# contradicted. Other labels do not fail the job.
+#
+# fetch-depth: 0 is there so the base commit exists for the diff. If the
+# diff cannot be read, the scan still finishes and the summary says so.
+#
+# `uses: ./` expects action.yml at the root of the repository that runs the
+# workflow. This example has not been run on GitHub.
+
+name: ClaimCheck
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "README.md"
+      - "README.markdown"
+      - "README.rst"
+      - "**/*.py"
+      - "**/*.pyi"
+      - "**/*.js"
+      - "**/*.ts"
+      - "**/*.tsx"
+      - "**/*.go"
+      - "**/*.rs"
+      - "**/*.java"
+      - "**/*.rb"
+      - "**/*.json"
+      - "**/*.csv"
+      - "**/*.log"
+      - "benchmarks/**"
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      CLAIMCHECK_API_KEY: ${{ secrets.CLAIMCHECK_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: ./
+        with:
+          model: your-model-name
+          base-url: https://api.openai.com/v1
+          api-key-secret-name: CLAIMCHECK_API_KEY
+          fail-on: none
+          comment: false
+          base-sha: ${{ github.event.pull_request.base.sha }}
+          head-sha: ${{ github.event.pull_request.head.sha }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          repository: ${{ github.repository }}
+          github-token: ${{ github.token }}

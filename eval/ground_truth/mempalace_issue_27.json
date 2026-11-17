@@ -1,0 +1,314 @@
+{
+  "schema_version": 1,
+  "dataset": "mempalace-issue-27",
+  "inclusion_rule": "One row per cell in the opening table of MemPalace/mempalace issue #27, the comment authored by lhl when the issue was opened. Later comments are citations only when they restate one of those seven rows. Claims that appear only in later comments are not rows.",
+  "label_mapping": {
+    "Feature does not exist": "contradicted",
+    "Claim is false": "contradicted",
+    "Misleading attribution": "contradicted",
+    "Misleading framing": "contradicted",
+    "Unverifiable": "unverifiable",
+    "Nomenclature mismatch": "contradicted",
+    "Conceptual, not functional": "contradicted"
+  },
+  "provenance": "Labels and evidence notes are copied from the issue, then mapped onto ClaimCheck's four labels by label_mapping. ClaimCheck did not re-audit the MemPalace code. README quotes were copied from README.md at the pinned commit (sha256 a51e202a581bab793139a1f63a3695cf9132a279d8326b89e14eea553f9e20de), fetched on 2026-11-13. All 40 issue comments available on that date were read. Comments that add claims outside the opening table are not rows. That includes later notes about Layer2.retrieve and a 2026-11-10 rerun of the 96.6% figure on mempalace 3.11.0 (https://github.com/MemPalace/mempalace/issues/27#issuecomment-6765865311), which is about a later version than this commit.",
+  "repo": "https://github.com/MemPalace/mempalace",
+  "branch": "develop",
+  "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+  "commit_committed_at": "2026-04-07T08:16:07Z",
+  "commit_selection": "Newest commit on the current history of the default branch develop whose committer timestamp is earlier than the issue created_at 2026-04-07T08:47:47Z. GitHub's commit list for that branch, with until set to the issue timestamp, returned this SHA first. Commit message: 'refactor: consolidate split known-names config loading'. This is the current branch history, not a reflog of the tip at that minute.",
+  "issue_url": "https://github.com/MemPalace/mempalace/issues/27",
+  "issue_created_at": "2026-04-07T08:47:47Z",
+  "readme_sha256": "a51e202a581bab793139a1f63a3695cf9132a279d8326b89e14eea553f9e20de",
+  "cases": [
+    {
+      "repo": "https://github.com/MemPalace/mempalace",
+      "branch": "develop",
+      "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+      "id": "mempalace-27-contradiction-detection",
+      "claim_text": "MemPalace catches mistakes before they reach you",
+      "issue_claim": "Contradiction detection — automatically flags inconsistencies against the knowledge graph",
+      "expected_label": "contradicted",
+      "issue_severity": "Feature does not exist",
+      "label_mapping_note": "The issue says the feature does not exist in knowledge_graph.py. That is mapped to contradicted. ClaimCheck did not open knowledge_graph.py for this file.",
+      "mapping_is_coarse": false,
+      "evidence_notes": "As written in the issue, not re-verified by ClaimCheck: knowledge_graph.py has no contradiction detection. The only dedup is blocking identical open triples (same subject/predicate/object where valid_to IS NULL). Conflicting facts (for example two different married_to values) accumulate silently.",
+      "readme_path": "README.md",
+      "readme_line": 260,
+      "readme_line_end": 260,
+      "readme_quote": "MemPalace catches mistakes before they reach you:",
+      "also_readme_lines": [
+        258,
+        273
+      ],
+      "match_texts": [
+        "Facts checked against the knowledge graph.",
+        "Contradiction detection"
+      ],
+      "sources": [
+        {
+          "kind": "issue_body",
+          "url": "https://github.com/MemPalace/mempalace/issues/27",
+          "author": "lhl",
+          "note": "Opening audit table. Primary source for the claim, the severity, and the evidence notes."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4201242972",
+          "author": "milla-jovovich",
+          "note": "Maintainer reply that restates this row and says the audit was right on every line."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4198098643",
+          "author": "dial481",
+          "note": "Restates this row of the opening table. Not a separate ClaimCheck audit."
+        }
+      ]
+    },
+    {
+      "repo": "https://github.com/MemPalace/mempalace",
+      "branch": "develop",
+      "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+      "id": "mempalace-27-aaak-lossless-30x",
+      "claim_text": "30x compression, zero information loss",
+      "issue_claim": "30x compression, zero information loss — AAAK described as \"lossless shorthand\"",
+      "expected_label": "contradicted",
+      "issue_severity": "Claim is false",
+      "label_mapping_note": "The issue's severity is 'Claim is false'. That is mapped to contradicted. The evidence note is the issue's description of the code, not a new measurement.",
+      "mapping_is_coarse": false,
+      "evidence_notes": "As written in the issue, not re-verified by ClaimCheck: AAAK is lossy abbreviation: regex entity codes plus keyword frequency plus 55-character sentence truncation. decode() is string splitting, with no original text reconstruction. Token counting uses a len(text)//3 heuristic. The issue says LongMemEval drops from 96.6% to 84.2% in AAAK mode, a 12.4 percentage point quality loss.",
+      "readme_path": "README.md",
+      "readme_line": 17,
+      "readme_line_end": 17,
+      "readme_quote": "**AAAK** — A lossless shorthand dialect designed for AI agents. Not meant to be read by humans — meant to be read by your AI, fast. 30x compression, zero information loss. Your AI loads months of context in ~120 tokens. And because AAAK is just structured text with a universal grammar, it works with **any model that reads text** — Claude, GPT, Gemini, Llama, Mistral. No decoder, no fine-tuning, no cloud API required. Run it against a local model and your entire memory stack stays offline. Nothing else like it exists.",
+      "also_readme_lines": [
+        239,
+        589
+      ],
+      "match_texts": [
+        "A lossless shorthand dialect",
+        "AAAK is a lossless dialect — 30x compression",
+        "AAAK compression — 30x lossless"
+      ],
+      "sources": [
+        {
+          "kind": "issue_body",
+          "url": "https://github.com/MemPalace/mempalace/issues/27",
+          "author": "lhl",
+          "note": "Opening audit table. Primary source for the claim, the severity, and the evidence notes."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4201242972",
+          "author": "milla-jovovich",
+          "note": "Maintainer reply that restates this row and says the audit was right on every line."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4198098643",
+          "author": "dial481",
+          "note": "Restates this row of the opening table. Not a separate ClaimCheck audit."
+        }
+      ]
+    },
+    {
+      "repo": "https://github.com/MemPalace/mempalace",
+      "branch": "develop",
+      "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+      "id": "mempalace-27-longmemeval-96-6",
+      "claim_text": "96.6% LongMemEval R@5 (headline, positioned as MemPalace's score)",
+      "issue_claim": "96.6% LongMemEval R@5 (headline, positioned as MemPalace's score)",
+      "expected_label": "contradicted",
+      "issue_severity": "Misleading attribution",
+      "label_mapping_note": "The issue does not say the number 96.6% is fabricated. It says the number is a real raw-mode score and that positioning it as MemPalace's score is misleading because the palace structure is not involved. Mapped to contradicted for that attribution. mapping_is_coarse is true because 'misleading attribution' is not the same words as contradicted, and the number itself is called real in the issue.",
+      "mapping_is_coarse": true,
+      "evidence_notes": "As written in the issue, not re-verified by ClaimCheck: real score, but measured in raw mode — uncompressed verbatim text stored in ChromaDB, standard nearest-neighbor retrieval. The palace structure (wings/rooms/halls) is not involved. This measures ChromaDB's default embedding model performance, not MemPalace.",
+      "readme_path": "README.md",
+      "readme_line": 495,
+      "readme_line_end": 495,
+      "readme_quote": "The 96.6% raw score is the highest published LongMemEval result requiring no API key, no cloud, and no LLM at any stage.",
+      "also_readme_lines": [
+        34,
+        38,
+        489,
+        503
+      ],
+      "match_texts": [
+        "96.6% LongMemEval R@5",
+        "Highest LongMemEval score ever published",
+        "The 96.6% raw score is the highest published LongMemEval result requiring no API key, no cloud, and no LLM at any stage."
+      ],
+      "sources": [
+        {
+          "kind": "issue_body",
+          "url": "https://github.com/MemPalace/mempalace/issues/27",
+          "author": "lhl",
+          "note": "Opening audit table. Primary source for the claim, the severity, and the evidence notes."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4201242972",
+          "author": "milla-jovovich",
+          "note": "Maintainer reply that restates this row and says the audit was right on every line."
+        }
+      ]
+    },
+    {
+      "repo": "https://github.com/MemPalace/mempalace",
+      "branch": "develop",
+      "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+      "id": "mempalace-27-palace-boost-34",
+      "claim_text": "That structure alone improves retrieval by 34%.",
+      "issue_claim": "+34% retrieval boost from palace structure",
+      "expected_label": "contradicted",
+      "issue_severity": "Misleading framing",
+      "label_mapping_note": "The issue does not say the +34% figure is missing. It says the mechanism is metadata filtering, which it calls standard rather than a novel retrieval mechanism. Mapped to contradicted for the 'from palace structure' framing. mapping_is_coarse is true.",
+      "mapping_is_coarse": true,
+      "evidence_notes": "As written in the issue, not re-verified by ClaimCheck: narrowing search scope from all drawers to wing to wing+room. This is metadata filtering — a standard technique in any vector DB, not a novel retrieval mechanism.",
+      "readme_path": "README.md",
+      "readme_line": 15,
+      "readme_line_end": 15,
+      "readme_quote": "That structure alone improves retrieval by 34%.",
+      "also_readme_lines": [
+        40,
+        221,
+        224
+      ],
+      "match_texts": [
+        "+34% retrieval boost from palace structure",
+        "34% retrieval improvement"
+      ],
+      "sources": [
+        {
+          "kind": "issue_body",
+          "url": "https://github.com/MemPalace/mempalace/issues/27",
+          "author": "lhl",
+          "note": "Opening audit table. Primary source for the claim, the severity, and the evidence notes."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4201242972",
+          "author": "milla-jovovich",
+          "note": "Maintainer reply that restates this row and says the audit was right on every line."
+        }
+      ]
+    },
+    {
+      "repo": "https://github.com/MemPalace/mempalace",
+      "branch": "develop",
+      "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+      "id": "mempalace-27-haiku-rerank-100",
+      "claim_text": "100% with Haiku rerank",
+      "issue_claim": "100% with Haiku rerank",
+      "expected_label": "unverifiable",
+      "issue_severity": "Unverifiable",
+      "label_mapping_note": "The issue's severity is Unverifiable. Mapped unchanged. The maintainer's acknowledgment comment says result files exist but the method is unverifiable from the repo as shipped. That comment is a citation, not a reason to change the label.",
+      "mapping_is_coarse": false,
+      "evidence_notes": "As written in the issue, not re-verified by ClaimCheck: not in the benchmark scripts. Method undocumented and unverifiable from the repo.",
+      "readme_path": "README.md",
+      "readme_line": 490,
+      "readme_line_end": 490,
+      "readme_quote": "| **LongMemEval R@5** | Hybrid + Haiku rerank | **100%** (500/500) | ~500 |",
+      "also_readme_lines": [
+        39,
+        501
+      ],
+      "match_texts": [
+        "Hybrid + Haiku rerank",
+        "**100%** (500/500)"
+      ],
+      "sources": [
+        {
+          "kind": "issue_body",
+          "url": "https://github.com/MemPalace/mempalace/issues/27",
+          "author": "lhl",
+          "note": "Opening audit table. Primary source for the claim, the severity, and the evidence notes."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4201242972",
+          "author": "milla-jovovich",
+          "note": "Maintainer reply that restates this row and says the audit was right on every line."
+        }
+      ]
+    },
+    {
+      "repo": "https://github.com/MemPalace/mempalace",
+      "branch": "develop",
+      "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+      "id": "mempalace-27-closets-summaries",
+      "claim_text": "compressed summaries that point to the original content",
+      "issue_claim": "\"Closets\" as compressed summaries",
+      "expected_label": "contradicted",
+      "issue_severity": "Nomenclature mismatch",
+      "label_mapping_note": "The issue says closets are described as compressed summaries, while AAAK produces abbreviations rather than summaries, and it found no separate closet storage tier. Mapped to contradicted. mapping_is_coarse is true because the issue called this a nomenclature mismatch.",
+      "mapping_is_coarse": true,
+      "evidence_notes": "As written in the issue, not re-verified by ClaimCheck: AAAK produces abbreviations, not summaries. No evidence of a separate closet storage tier distinct from drawers.",
+      "readme_path": "README.md",
+      "readme_line": 193,
+      "readme_line_end": 193,
+      "readme_quote": "**Closets** — compressed summaries that point to the original content. Fast for AI to read.",
+      "also_readme_lines": [
+        151
+      ],
+      "match_texts": [],
+      "sources": [
+        {
+          "kind": "issue_body",
+          "url": "https://github.com/MemPalace/mempalace/issues/27",
+          "author": "lhl",
+          "note": "Opening audit table. Primary source for the claim, the severity, and the evidence notes."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4201242972",
+          "author": "milla-jovovich",
+          "note": "Maintainer reply that restates this row and says the audit was right on every line."
+        }
+      ]
+    },
+    {
+      "repo": "https://github.com/MemPalace/mempalace",
+      "branch": "develop",
+      "commit": "0808ad96c29d5acb9fd3b465025ea201711bd28d",
+      "id": "mempalace-27-hall-types",
+      "claim_text": "are memory types — the same in every wing, acting as corridors",
+      "issue_claim": "Hall types structurally enforced",
+      "expected_label": "contradicted",
+      "issue_severity": "Conceptual, not functional",
+      "label_mapping_note": "The issue paraphrases the README's hall-type list as 'Hall types structurally enforced'. The README line does not contain the word 'enforced'. The issue says halls exist as metadata strings and are not used in retrieval ranking or enforced as constraints. Mapped to contradicted for that paraphrase. mapping_is_coarse is true.",
+      "mapping_is_coarse": true,
+      "evidence_notes": "As written in the issue, not re-verified by ClaimCheck: halls exist as metadata strings but are not used in retrieval ranking or enforced as constraints.",
+      "readme_path": "README.md",
+      "readme_line": 196,
+      "readme_line_end": 196,
+      "readme_quote": "**Halls** are memory types — the same in every wing, acting as corridors:",
+      "also_readme_lines": [
+        15,
+        197,
+        198,
+        199,
+        200,
+        201
+      ],
+      "match_texts": [
+        "Halls are memory types"
+      ],
+      "sources": [
+        {
+          "kind": "issue_body",
+          "url": "https://github.com/MemPalace/mempalace/issues/27",
+          "author": "lhl",
+          "note": "Opening audit table. Primary source for the claim, the severity, and the evidence notes."
+        },
+        {
+          "kind": "issue_comment",
+          "url": "https://github.com/MemPalace/mempalace/issues/27#issuecomment-4201242972",
+          "author": "milla-jovovich",
+          "note": "Maintainer reply that restates this row and says the audit was right on every line."
+        }
+      ]
+    }
+  ]
+}

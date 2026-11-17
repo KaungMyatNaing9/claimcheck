@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "dataset": "tiny-repo",
+  "inclusion_rule": "One row per checkable sentence in fixtures/tiny_repo/README.md. The marketing sentence is not a row. Labels are defined by the code and benchmark files in that directory.",
+  "label_mapping": {
+    "function is implemented": "supported",
+    "code states the opposite": "contradicted",
+    "feature does not exist": "not_found",
+    "measurement agrees": "supported",
+    "measurement disagrees": "contradicted",
+    "method not in benchmark files": "unverifiable"
+  },
+  "provenance": "This file is the specification of fixtures/tiny_repo. It is not an audit of another project. mapping_is_coarse is false on every row because each issue_severity was written for one of the four labels.",
+  "repo": "fixtures/tiny_repo",
+  "branch": "local",
+  "commit": "local",
+  "commit_committed_at": "local",
+  "commit_selection": "The files in fixtures/tiny_repo in this repository. There is no separate upstream commit.",
+  "issue_url": "fixtures/tiny_repo/README.md",
+  "issue_created_at": "local",
+  "readme_sha256": "c19095db555ae44cea9e12a74be782a3bf3555a6f02d5c1bbb761f6e6c918204",
+  "cases": [
+    {
+      "repo": "fixtures/tiny_repo",
+      "branch": "local",
+      "commit": "local",
+      "mapping_is_coarse": false,
+      "readme_path": "README.md",
+      "also_readme_lines": [],
+      "match_texts": [],
+      "sources": [
+        {
+          "kind": "fixture",
+          "url": "fixtures/tiny_repo/README.md",
+          "author": "claimcheck",
+          "note": "The expected label is defined by the files in fixtures/tiny_repo, which this row names."
+        }
+      ],
+      "id": "tiny-index-notes",
+      "claim_text": "The index_notes function writes a SQLite database at notes.db.",
+      "issue_claim": "The index_notes function writes a SQLite database at notes.db.",
+      "expected_label": "supported",
+      "issue_severity": "function is implemented",
+      "label_mapping_note": "The fixture defines this as supported because tinylib/index.py defines index_notes and its docstring says it writes a SQLite database.",
+      "evidence_notes": "tinylib/index.py defines index_notes. The docstring on the following line says it writes a SQLite database at notes.db.",
+      "readme_line": 5,
+      "readme_line_end": 5,
+      "readme_quote": "The index_notes function writes a SQLite database at notes.db."
+    },
+    {
+      "repo": "fixtures/tiny_repo",
+      "branch": "local",
+      "commit": "local",
+      "mapping_is_coarse": false,
+      "readme_path": "README.md",
+      "also_readme_lines": [],
+      "match_texts": [],
+      "sources": [
+        {
+          "kind": "fixture",
+          "url": "fixtures/tiny_repo/README.md",
+          "author": "claimcheck",
+          "note": "The expected label is defined by the files in fixtures/tiny_repo, which this row names."
+        }
+      ],
+      "id": "tiny-contradictions",
+      "claim_text": "TinyLib detects contradictions in stored facts before saving them.",
+      "issue_claim": "TinyLib detects contradictions in stored facts before saving them.",
+      "expected_label": "contradicted",
+      "issue_severity": "code states the opposite",
+      "label_mapping_note": "The fixture defines this as contradicted because tinylib/facts.py says the save function does not check for contradictions.",
+      "evidence_notes": "tinylib/facts.py save_fact docstring: this function does not check for contradictions.",
+      "readme_line": 7,
+      "readme_line_end": 7,
+      "readme_quote": "TinyLib detects contradictions in stored facts before saving them."
+    },
+    {
+      "repo": "fixtures/tiny_repo",
+      "branch": "local",
+      "commit": "local",
+      "mapping_is_coarse": false,
+      "readme_path": "README.md",
+      "also_readme_lines": [],
+      "match_texts": [],
+      "sources": [
+        {
+          "kind": "fixture",
+          "url": "fixtures/tiny_repo/README.md",
+          "author": "claimcheck",
+          "note": "The expected label is defined by the files in fixtures/tiny_repo, which this row names."
+        }
+      ],
+      "id": "tiny-graphql",
+      "claim_text": "TinyLib exposes a GraphQL endpoint for queries.",
+      "issue_claim": "TinyLib exposes a GraphQL endpoint for queries.",
+      "expected_label": "not_found",
+      "issue_severity": "feature does not exist",
+      "label_mapping_note": "The fixture defines this as not_found. No file under fixtures/tiny_repo mentions GraphQL.",
+      "evidence_notes": "No symbol or line in the fixture mentions GraphQL.",
+      "readme_line": 9,
+      "readme_line_end": 9,
+      "readme_quote": "TinyLib exposes a GraphQL endpoint for queries."
+    },
+    {
+      "repo": "fixtures/tiny_repo",
+      "branch": "local",
+      "commit": "local",
+      "mapping_is_coarse": false,
+      "readme_path": "README.md",
+      "also_readme_lines": [],
+      "match_texts": [],
+      "sources": [
+        {
+          "kind": "fixture",
+          "url": "fixtures/tiny_repo/README.md",
+          "author": "claimcheck",
+          "note": "The expected label is defined by the files in fixtures/tiny_repo, which this row names."
+        }
+      ],
+      "id": "tiny-recall-90",
+      "claim_text": "Recall at 5 on the bundled sample is 90%.",
+      "issue_claim": "Recall at 5 on the bundled sample is 90%.",
+      "expected_label": "supported",
+      "issue_severity": "measurement agrees",
+      "label_mapping_note": "The fixture defines this as supported. benchmarks JSON, CSV, and the log all record recall_at_5 as 0.90 or 90%.",
+      "evidence_notes": "benchmarks/sample_results.json recall_at_5 is 0.90. The CSV and run.log record the same value.",
+      "readme_line": 11,
+      "readme_line_end": 11,
+      "readme_quote": "Recall at 5 on the bundled sample is 90%."
+    },
+    {
+      "repo": "fixtures/tiny_repo",
+      "branch": "local",
+      "commit": "local",
+      "mapping_is_coarse": false,
+      "readme_path": "README.md",
+      "also_readme_lines": [],
+      "match_texts": [],
+      "sources": [
+        {
+          "kind": "fixture",
+          "url": "fixtures/tiny_repo/README.md",
+          "author": "claimcheck",
+          "note": "The expected label is defined by the files in fixtures/tiny_repo, which this row names."
+        }
+      ],
+      "id": "tiny-accuracy-99",
+      "claim_text": "Sample accuracy is 99%.",
+      "issue_claim": "Sample accuracy is 99%.",
+      "expected_label": "contradicted",
+      "issue_severity": "measurement disagrees",
+      "label_mapping_note": "The fixture defines this as contradicted. The benchmark files record accuracy as 0.70, which is 70%, not 99%.",
+      "evidence_notes": "benchmarks/sample_results.json accuracy is 0.70. The CSV and run.log record 0.70 and 70%.",
+      "readme_line": 13,
+      "readme_line_end": 13,
+      "readme_quote": "Sample accuracy is 99%."
+    },
+    {
+      "repo": "fixtures/tiny_repo",
+      "branch": "local",
+      "commit": "local",
+      "mapping_is_coarse": false,
+      "readme_path": "README.md",
+      "also_readme_lines": [],
+      "match_texts": [],
+      "sources": [
+        {
+          "kind": "fixture",
+          "url": "fixtures/tiny_repo/README.md",
+          "author": "claimcheck",
+          "note": "The expected label is defined by the files in fixtures/tiny_repo, which this row names."
+        }
+      ],
+      "id": "tiny-haiku-100",
+      "claim_text": "A Haiku rerank reaches 100% on the bundled sample.",
+      "issue_claim": "A Haiku rerank reaches 100% on the bundled sample.",
+      "expected_label": "unverifiable",
+      "issue_severity": "method not in benchmark files",
+      "label_mapping_note": "The fixture defines this as unverifiable. No parsed metric is named Haiku or rerank, so the 100% figure is not compared to a different number.",
+      "evidence_notes": "The JSON, CSV, and log contain recall_at_5 and accuracy only.",
+      "readme_line": 15,
+      "readme_line_end": 15,
+      "readme_quote": "A Haiku rerank reaches 100% on the bundled sample."
+    }
+  ]
+}
